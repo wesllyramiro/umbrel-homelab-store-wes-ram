@@ -12,9 +12,8 @@ services:
       - NET_ADMIN
     devices:
       - /dev/net/tun:/dev/net/tun
-    env_file:
-      - ${APP_DATA_ROOT}/secrets.env
     environment:
+      WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY}
       VPN_SERVICE_PROVIDER: protonvpn
       VPN_TYPE: wireguard
       FIREWALL_INPUT_PORTS: "9091"
