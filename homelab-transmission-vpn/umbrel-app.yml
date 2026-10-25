@@ -2,9 +2,9 @@ manifestVersion: 1
 id: homelab-transmission-vpn
 name: Transmission VPN
 tagline: Transmission protegido pela Proton VPN
-icon: https://svgur.com/i/mvA.svg
+icon: https://raw.githubusercontent.com/wesllyramiro/umbrel-homelab-store-wes-ram/master/homelab-transmission-vpn/icon.svg
 category: Networking
-version: "1.0.3"
+version: "1.0.4"
 port: 9091
 description: >-
   Transmission com Gluetun e Proton VPN via WireGuard.
@@ -22,7 +22,7 @@ repo: https://github.com/wesllyramiro/umbrel-homelab-store-wes-ram
 support: https://github.com/wesllyramiro/umbrel-homelab-store-wes-ram/issues
 gallery: []
 releaseNotes: >-
-  Usa variável personalizada do serviço Gluetun para a chave WireGuard.
+  Adiciona ícone próprio hospedado no repositório.
   Sincroniza automaticamente a porta dinâmica da Proton VPN com o Transmission.
 dependencies: []
 path: ""
