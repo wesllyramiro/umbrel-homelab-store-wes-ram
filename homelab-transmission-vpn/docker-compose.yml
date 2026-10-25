@@ -1,1 +1,41 @@
 
+
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: homelab-transmission-vpn_gluetun_1
+      APP_PORT: 9091
+
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    env_file:
+      - ${APP_DATA_DIR}/secrets.env
+    environment:
+      VPN_SERVICE_PROVIDER: protonvpn
+      VPN_TYPE: wireguard
+      FIREWALL_INPUT_PORTS: "9091"
+      SERVER_COUNTRIES: Brazil,Netherlands,United States
+      VPN_PORT_FORWARDING: on
+      VPN_PORT_FORWARDING_PROVIDER: protonvpn
+    volumes:
+      - ${APP_DATA_DIR}/data/gluetun:/gluetun
+    restart: unless-stopped
+
+  transmission:
+    image: linuxserver/transmission:4.1.3
+    network_mode: "service:gluetun"
+    depends_on:
+      - gluetun
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+    volumes:
+      - ${APP_DATA_DIR}/data/config:/config
+      - ${UMBREL_ROOT}/home/Downloads:/downloads
+    restart: unless-stopped
