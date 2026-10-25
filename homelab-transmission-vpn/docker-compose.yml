@@ -51,6 +51,13 @@ services:
       PORT_SYNC_POLL_SECONDS: "5"
     volumes:
       - ${APP_DATA_ROOT}/gluetun:/gluetun:ro
-      - ./port-sync.py:/app/port-sync.py:ro
-    command: ["python", "-u", "/app/port-sync.py"]
+    command:
+      - /bin/sh
+      - -c
+      - |
+        until wget -qO /tmp/port-sync.py https://raw.githubusercontent.com/wesllyramiro/umbrel-homelab-store-wes-ram/master/homelab-transmission-vpn/port-sync.py; do
+          echo "Aguardando acesso ao script de sincronização..."
+          sleep 5
+        done
+        exec python -u /tmp/port-sync.py
     restart: unless-stopped
