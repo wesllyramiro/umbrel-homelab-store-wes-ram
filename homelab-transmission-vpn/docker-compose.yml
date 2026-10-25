@@ -1,5 +1,3 @@
-
-
 version: "3.7"
 
 services:
@@ -14,17 +12,18 @@ services:
       - NET_ADMIN
     devices:
       - /dev/net/tun:/dev/net/tun
-    env_file:
-      - ${APP_DATA_DIR}/secrets.env
     environment:
+      # Set this in Umbrel: App settings > Advanced > Environment variables.
+      # Keep the value empty here; never commit a real private key.
+      WIREGUARD_PRIVATE_KEY: ""
       VPN_SERVICE_PROVIDER: protonvpn
       VPN_TYPE: wireguard
       FIREWALL_INPUT_PORTS: "9091"
-      SERVER_COUNTRIES: Brazil,Netherlands,United States
-      VPN_PORT_FORWARDING: on
+      SERVER_COUNTRIES: "Brazil,Netherlands,United States"
+      VPN_PORT_FORWARDING: "on"
       VPN_PORT_FORWARDING_PROVIDER: protonvpn
     volumes:
-      - ${APP_DATA_DIR}/data/gluetun:/gluetun
+      - ${APP_DATA_ROOT}/gluetun:/gluetun
     restart: unless-stopped
 
   transmission:
@@ -36,6 +35,6 @@ services:
       PUID: "1000"
       PGID: "1000"
     volumes:
-      - ${APP_DATA_DIR}/data/config:/config
+      - ${APP_DATA_ROOT}/config:/config
       - ${UMBREL_ROOT}/home/Downloads:/downloads
     restart: unless-stopped
