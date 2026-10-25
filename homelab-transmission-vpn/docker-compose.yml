@@ -13,8 +13,6 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     environment:
-      # Configure this variable through the Umbrel app environment settings.
-      WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY}
       VPN_SERVICE_PROVIDER: protonvpn
       VPN_TYPE: wireguard
       FIREWALL_INPUT_PORTS: "9091"
