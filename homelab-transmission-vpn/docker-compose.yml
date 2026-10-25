@@ -20,6 +20,7 @@ services:
       FIREWALL_INPUT_PORTS: "9091"
       SERVER_COUNTRIES: "Brazil,Netherlands,United States"
       VPN_PORT_FORWARDING: "on"
+      PORT_FORWARD_ONLY: "on"
       VPN_PORT_FORWARDING_PROVIDER: protonvpn
       VPN_PORT_FORWARDING_STATUS_FILE: /gluetun/forwarded_port
     volumes:
