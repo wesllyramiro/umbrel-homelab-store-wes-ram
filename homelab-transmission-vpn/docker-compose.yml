@@ -13,15 +13,15 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     environment:
-      # Set this in Umbrel: App settings > Advanced > Environment variables.
-      # Keep the value empty here; never commit a real private key.
-      WIREGUARD_PRIVATE_KEY: ""
+      # Configure this variable through the Umbrel app environment settings.
+      WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY}
       VPN_SERVICE_PROVIDER: protonvpn
       VPN_TYPE: wireguard
       FIREWALL_INPUT_PORTS: "9091"
       SERVER_COUNTRIES: "Brazil,Netherlands,United States"
       VPN_PORT_FORWARDING: "on"
       VPN_PORT_FORWARDING_PROVIDER: protonvpn
+      VPN_PORT_FORWARDING_STATUS_FILE: /gluetun/forwarded_port
     volumes:
       - ${APP_DATA_ROOT}/gluetun:/gluetun
     restart: unless-stopped
@@ -37,4 +37,20 @@ services:
     volumes:
       - ${APP_DATA_ROOT}/config:/config
       - ${UMBREL_ROOT}/home/Downloads:/downloads
+    restart: unless-stopped
+
+  port-sync:
+    image: python:3.12-alpine
+    network_mode: "service:gluetun"
+    depends_on:
+      - gluetun
+      - transmission
+    environment:
+      GLUETUN_PORT_FILE: /gluetun/forwarded_port
+      TRANSMISSION_RPC_URL: http://127.0.0.1:9091/transmission/rpc
+      PORT_SYNC_POLL_SECONDS: "5"
+    volumes:
+      - ${APP_DATA_ROOT}/gluetun:/gluetun:ro
+      - ./port-sync.py:/app/port-sync.py:ro
+    command: ["python", "-u", "/app/port-sync.py"]
     restart: unless-stopped
