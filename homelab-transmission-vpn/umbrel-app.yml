@@ -12,6 +12,10 @@ description: >-
   Transmission com Gluetun e Proton VPN via WireGuard.
   Downloads persistentes no armazenamento do UmbrelOS,
   com proteção contra tráfego fora do túnel VPN.
+storage:
+  dataRoot: data
+permissions:
+  - STORAGE_DOWNLOADS
 developer: Homelab
 website: https://github.com/wesllyramiro/umbrel-homelab-store-wes-ram
 submitter: wesllyramiro
